@@ -12,6 +12,11 @@ public class MenuScript : MonoBehaviour
     public Text MultiplierButtonText;
     int Price = 200 * EdgeCollision.multiplier;
 
+    void Start()
+    {
+        Resume();
+    }
+
     public void OpenMenu()
     {
         if (GameIsPaused)
@@ -47,4 +52,6 @@ public class MenuScript : MonoBehaviour
             MultiplierButtonText.text = $"{EdgeCollision.multiplier*2}x Multiplier - {Price}";
         }
     }
+
+    // Buy friction --> 0.95 --> 0.97 --> 0.99 (temporary 999)
 }

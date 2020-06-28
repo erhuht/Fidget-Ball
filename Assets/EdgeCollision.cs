@@ -23,10 +23,12 @@ public class EdgeCollision : MonoBehaviour {
     public Text text;
     float mx, my;
     int id;
+    public float friction;
+    public float bounce;
     
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
         Application.targetFrameRate = 60;
 
@@ -42,6 +44,8 @@ public class EdgeCollision : MonoBehaviour {
         points = 0;
         text.text = points.ToString();
 
+        friction = 0.95f;
+        bounce = 1f;
 	}
 
     // Check if touch has ended
@@ -171,9 +175,8 @@ public class EdgeCollision : MonoBehaviour {
             if (Mathf.Abs(translation.x) < threshold)
             {
                 translation.x = -correction;
-                Debug.Log("corrected!");
             }
-            translation.x = -Mathf.Abs(translation.x);
+            translation.x = -Mathf.Abs(translation.x)*bounce;
             Collide();
         }
         if (gameObject.transform.position.x < -width+radius)
@@ -181,9 +184,8 @@ public class EdgeCollision : MonoBehaviour {
             if (Mathf.Abs(translation.x) < threshold)
             {
                 translation.x = correction;
-                Debug.Log("corrected!");
             }
-            translation.x = Mathf.Abs(translation.x);
+            translation.x = Mathf.Abs(translation.x)*bounce;
             Collide();
         }
         if (gameObject.transform.position.y > height - radius)
@@ -191,9 +193,8 @@ public class EdgeCollision : MonoBehaviour {
             if (Mathf.Abs(translation.y) < threshold)
             {
                 translation.y = -correction;
-                Debug.Log("corrected!");
             }
-            translation.y = -Mathf.Abs(translation.y);
+            translation.y = -Mathf.Abs(translation.y)*bounce;
             Collide();
         }
         if (gameObject.transform.position.y < -height + radius)
@@ -201,13 +202,12 @@ public class EdgeCollision : MonoBehaviour {
             if (Mathf.Abs(translation.y) < threshold)
             {
                 translation.y = correction;
-                Debug.Log("corrected!");
             }
-            translation.y = Mathf.Abs(translation.y);
+            translation.y = Mathf.Abs(translation.y)*bounce;
             Collide();
         }
 
         gameObject.transform.Translate(translation);
-        translation *= 0.99f;
+        translation *= friction;
     }
 }

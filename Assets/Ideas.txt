@@ -5,3 +5,7 @@ Permanent:
 Temporary:
 -Speed boost?
 -Auto bounce
+
+
+-Make scores persistent
+-Daily spin lottery?
