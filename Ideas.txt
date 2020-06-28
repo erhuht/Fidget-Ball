@@ -1,0 +1,7 @@
+Permanent:
+-Multiple points for one hit
+-More bounce (maybe less bounce in the beginning)
+
+Temporary:
+-Speed boost?
+-Auto bounce
