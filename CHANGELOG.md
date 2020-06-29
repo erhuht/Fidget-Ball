@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 - Other things to buy, like other multiplier-like things, power-ups and cosmetic things
+- Make scores persistent
+
+## [0.1.1] - 2020-06-29
+### Added
+- Added functionality to the friction upgrade
 
 ## [0.0.1] - 2020-06-28
 ### Added

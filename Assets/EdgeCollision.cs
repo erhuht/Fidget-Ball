@@ -24,8 +24,40 @@ public class EdgeCollision : MonoBehaviour {
     float mx, my;
     int id;
     public float friction;
+    public static FrictionState frictionLevel;
     public float bounce;
-    
+    public enum FrictionState
+    {
+        Low,
+        Medium,
+        High,
+        ExtraHigh
+    }
+
+    public void UpdateFriction() {
+        switch (frictionLevel)
+        {
+            case FrictionState.Low:
+                friction = 0.95f;
+                break;
+            case FrictionState.Medium:
+                friction = 0.97f;
+                break;
+            case FrictionState.High:
+                friction = 0.99f;
+                break;
+            case FrictionState.ExtraHigh:
+                friction = 0.999f;
+                break;
+            default:
+                Debug.Log("Invalid frictionLevel");
+                break;
+        }
+    }
+
+    public void UpdatePoints() {
+        text.text = points.ToString();
+    }
 
     // Use this for initialization
     void Start()
@@ -42,9 +74,10 @@ public class EdgeCollision : MonoBehaviour {
         radius = 0.5f;
 
         points = 0;
-        text.text = points.ToString();
+        UpdatePoints();
 
-        friction = 0.95f;
+        frictionLevel = FrictionState.Low;
+        UpdateFriction();
         bounce = 1f;
 	}
 
@@ -141,7 +174,7 @@ public class EdgeCollision : MonoBehaviour {
         if (is_dragging == false)
         {
             points += multiplier;
-            text.text = points.ToString();
+            UpdatePoints();
         }
     }
 
