@@ -10,3 +10,4 @@ Temporary:
 
 -Make scores persistent
 -Daily spin lottery?
+-Highlight things you can afford in the shop

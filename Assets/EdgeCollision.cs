@@ -19,7 +19,7 @@ public class EdgeCollision : MonoBehaviour {
     bool is_dragging;
     float radius;
     public static int points;
-    public static int multiplier = 1;
+    public static int multiplier;
     public Text text;
     float mx, my;
     int id;
@@ -59,6 +59,27 @@ public class EdgeCollision : MonoBehaviour {
         text.text = points.ToString();
     }
 
+    void Awake() // PlayerPrefs are loaded in Awake, so the Start order doesn't matter
+    {
+        points = PlayerPrefs.GetInt("Points", 0);
+        multiplier = PlayerPrefs.GetInt("Multiplier", 1);
+        switch (PlayerPrefs.GetInt("FrictionLevel", 0))
+        {
+            case 0:
+                frictionLevel = FrictionState.Low;
+                break;
+            case 1:
+                frictionLevel = FrictionState.Medium;
+                break;
+            case 2:
+                frictionLevel = FrictionState.High;
+                break;
+            case 3:
+                frictionLevel = FrictionState.ExtraHigh;
+                break;
+        }
+    }
+
     // Use this for initialization
     void Start()
     {
@@ -73,10 +94,10 @@ public class EdgeCollision : MonoBehaviour {
         is_dragging = false;
         radius = 0.5f;
 
-        points = 0;
+        
         UpdatePoints();
 
-        frictionLevel = FrictionState.Low;
+    
         UpdateFriction();
         bounce = 1f;
 	}
@@ -242,5 +263,11 @@ public class EdgeCollision : MonoBehaviour {
 
         gameObject.transform.Translate(translation);
         translation *= friction;
+    }
+
+    void OnApplicationQuit() {
+        PlayerPrefs.SetInt("Points", points);
+        PlayerPrefs.SetInt("Multiplier", multiplier);
+        PlayerPrefs.SetInt("FrictionLevel", (int) frictionLevel);
     }
 }

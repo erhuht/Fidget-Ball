@@ -13,12 +13,21 @@ public class MenuScript : MonoBehaviour
     public Text FrictionButtonText;
     public Button FrictionButton;
     public EdgeCollision Ball;
-    int MultiplierPrice = 200; // Initial prices, should be fixed when scores are changed to be persistent
-    int FrictionPrice = 500;
+    int MultiplierPrice;
+    int FrictionPrice;
+
+    void Awake() // PlayerPrefs are loaded in Awake, so the Start order doesn't matter
+    {
+        MultiplierPrice = PlayerPrefs.GetInt("MultiplierPrice", 200);
+        FrictionPrice = PlayerPrefs.GetInt("FrictionPrice", 500);
+    }
 
     void Start()
     {
         Resume();
+
+        UpdateMultiplier();
+        UpdateDecreaseFriction();
     }
     
     public void OpenMenu() // Called when hamburger icon is pressed
@@ -33,13 +42,13 @@ public class MenuScript : MonoBehaviour
         }
     }
 
-    void Resume()
+    void Resume() // Resumes the game
     {
         PauseMenuUI.SetActive(false);
         GameIsPaused = false;
     }
 
-    void Pause()
+    void Pause() // Pauses the game
     {
         PauseMenuUI.SetActive(true);
         GameIsPaused = true;
@@ -58,7 +67,12 @@ public class MenuScript : MonoBehaviour
         }
     }
 
-    public void BuyDecreaseFriction() // --> 0.95 --> 0.97 --> 0.99
+    void UpdateMultiplier() // Updates button in shop when the game is launched
+    {
+        MultiplierButtonText.text = $"{EdgeCollision.multiplier*2}x Multiplier - {MultiplierPrice}";
+    }
+
+    public void BuyDecreaseFriction() // Called when friction decrease is bought
     {
         if (EdgeCollision.points >= FrictionPrice)
         {
@@ -78,10 +92,34 @@ public class MenuScript : MonoBehaviour
                     Ball.UpdatePoints();
                     EdgeCollision.frictionLevel = EdgeCollision.FrictionState.High;
                     Ball.UpdateFriction();
-
-                    FrictionButton.interactable = false;
+                    
+                    FrictionButtonText.text = "Already Minimum Friction";
+                    FrictionButton.interactable = false; // Makes the button greyed out
                     break;
             }
         }
+    }
+
+    void UpdateDecreaseFriction() // Updates button in shop when the game is launched
+    {
+        switch (EdgeCollision.frictionLevel)
+        {
+            case EdgeCollision.FrictionState.Low:
+                FrictionButtonText.text = $"Decrease Friction - {FrictionPrice}";
+                break;
+            case EdgeCollision.FrictionState.Medium:
+                FrictionButtonText.text = $"Decrease Friction More - {FrictionPrice}";
+                break;
+            case EdgeCollision.FrictionState.High:           
+                FrictionButtonText.text = "Already Minimum Friction";
+                FrictionButton.interactable = false;
+                break;
+        }
+    }
+
+    void OnApplicationQuit()
+    {
+        PlayerPrefs.SetInt("MultiplierPrice", MultiplierPrice);
+        PlayerPrefs.SetInt("FrictionPrice", FrictionPrice);
     }
 }
