@@ -186,7 +186,7 @@ MonoBehaviour:
     m_MaxSize: 202
     m_Alignment: 4
     m_AlignByGeometry: 0
-    m_RichText: 0
+    m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
@@ -264,7 +264,7 @@ MonoBehaviour:
     m_MaxSize: 202
     m_Alignment: 4
     m_AlignByGeometry: 0
-    m_RichText: 0
+    m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
@@ -1319,7 +1319,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1422785228
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1642,6 +1642,7 @@ MonoBehaviour:
   text: {fileID: 1363392313}
   friction: 0
   bounce: 0
+  Menu: {fileID: 733008064}
 --- !u!1 &1712029891
 GameObject:
   m_ObjectHideFlags: 0

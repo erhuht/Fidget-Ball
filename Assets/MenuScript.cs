@@ -26,8 +26,7 @@ public class MenuScript : MonoBehaviour
     {
         Resume();
 
-        UpdateMultiplier();
-        UpdateDecreaseFriction();
+        UpdateButtons();
     }
     
     public void OpenMenu() // Called when hamburger icon is pressed
@@ -54,6 +53,7 @@ public class MenuScript : MonoBehaviour
         GameIsPaused = true;
     }
 
+
     public void BuyMultiplier() // Called when button to buy multiplier is pressed
     {
         if (EdgeCollision.points >= MultiplierPrice)
@@ -63,13 +63,8 @@ public class MenuScript : MonoBehaviour
             EdgeCollision.multiplier *= 2;
             MultiplierPrice = (int) Math.Round(MultiplierPrice * 2.1);
 
-            MultiplierButtonText.text = $"{EdgeCollision.multiplier*2}x Multiplier - {MultiplierPrice}";
+            UpdateButtons();
         }
-    }
-
-    void UpdateMultiplier() // Updates button in shop when the game is launched
-    {
-        MultiplierButtonText.text = $"{EdgeCollision.multiplier*2}x Multiplier - {MultiplierPrice}";
     }
 
     public void BuyDecreaseFriction() // Called when friction decrease is bought
@@ -85,7 +80,7 @@ public class MenuScript : MonoBehaviour
                     Ball.UpdateFriction();
                     FrictionPrice = 2500;
 
-                    FrictionButtonText.text = $"Decrease Friction More - {FrictionPrice}";
+                    UpdateButtons();
                     break;
                 case EdgeCollision.FrictionState.Medium:
                     EdgeCollision.points -= FrictionPrice;
@@ -93,29 +88,66 @@ public class MenuScript : MonoBehaviour
                     EdgeCollision.frictionLevel = EdgeCollision.FrictionState.High;
                     Ball.UpdateFriction();
                     
-                    FrictionButtonText.text = "Already Minimum Friction";
+                    UpdateButtons();
                     FrictionButton.interactable = false; // Makes the button greyed out
                     break;
             }
         }
     }
 
-    void UpdateDecreaseFriction() // Updates button in shop when the game is launched
+    public void UpdateButtons()
     {
-        switch (EdgeCollision.frictionLevel)
+        UpdateMultiplier();
+        UpdateDecreaseFriction();
+    }
+    void UpdateMultiplier() // Updates button in shop
+    {
+        if (EdgeCollision.points >= MultiplierPrice)
         {
-            case EdgeCollision.FrictionState.Low:
-                FrictionButtonText.text = $"Decrease Friction - {FrictionPrice}";
-                break;
-            case EdgeCollision.FrictionState.Medium:
-                FrictionButtonText.text = $"Decrease Friction More - {FrictionPrice}";
-                break;
-            case EdgeCollision.FrictionState.High:           
-                FrictionButtonText.text = "Already Minimum Friction";
-                FrictionButton.interactable = false;
-                break;
+            MultiplierButtonText.text = $"{EdgeCollision.multiplier*2}x Multiplier - <color=lime>{MultiplierPrice}</color>";
+        }
+        else
+        {
+            MultiplierButtonText.text = $"{EdgeCollision.multiplier*2}x Multiplier - <color=#ff6666>{MultiplierPrice}</color>";
         }
     }
+
+    void UpdateDecreaseFriction() // Updates button in shop
+    {
+        if (EdgeCollision.points >= FrictionPrice)
+        {
+            switch (EdgeCollision.frictionLevel)
+            {
+                case EdgeCollision.FrictionState.Low:
+                    FrictionButtonText.text = $"Decrease Friction - <color=lime>{FrictionPrice}</color>";
+                    break;
+                case EdgeCollision.FrictionState.Medium:
+                    FrictionButtonText.text = $"Decrease Friction More - <color=lime>{FrictionPrice}</color>";
+                    break;
+                case EdgeCollision.FrictionState.High:           
+                    FrictionButtonText.text = "Already Minimum Friction";
+                    FrictionButton.interactable = false;
+                    break;
+            }
+        }
+        else
+        {
+            switch (EdgeCollision.frictionLevel)
+            {
+                case EdgeCollision.FrictionState.Low:
+                    FrictionButtonText.text = $"Decrease Friction - <color=#ff6666>{FrictionPrice}</color>";
+                    break;
+                case EdgeCollision.FrictionState.Medium:
+                    FrictionButtonText.text = $"Decrease Friction More - <color=#ff6666>{FrictionPrice}</color>";
+                    break;
+                case EdgeCollision.FrictionState.High:           
+                    FrictionButtonText.text = "Already Minimum Friction";
+                    FrictionButton.interactable = false;
+                    break;
+            }
+        }
+    }
+
 
     void OnApplicationQuit()
     {

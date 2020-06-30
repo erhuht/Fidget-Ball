@@ -26,6 +26,7 @@ public class EdgeCollision : MonoBehaviour {
     public float friction;
     public static FrictionState frictionLevel;
     public float bounce;
+    public MenuScript Menu;
     public enum FrictionState
     {
         Low,
@@ -196,6 +197,7 @@ public class EdgeCollision : MonoBehaviour {
         {
             points += multiplier;
             UpdatePoints();
+            Menu.UpdateButtons();
         }
     }
 
